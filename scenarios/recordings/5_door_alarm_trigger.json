@@ -1,0 +1,32 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "binary_sensor.front_door",
+      "new_state": {
+        "state": "on"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "alarm_control_panel.home",
+      "new_state": {
+        "state": "armed_away"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "alarm_control_panel",
+      "service": "alarm_trigger"
+    }
+  }
+]

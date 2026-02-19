@@ -1,0 +1,35 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "binary_sensor.leak_basement",
+      "new_state": {
+        "state": "on"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "switch",
+      "service": "turn_off",
+      "service_data": {
+        "entity_id": "switch.water_main"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "notify",
+      "service": "mobile_app",
+      "service_data": {
+        "message": "Leak detected in basement!"
+      }
+    }
+  }
+]

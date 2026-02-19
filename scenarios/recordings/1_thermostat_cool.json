@@ -1,0 +1,42 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "climate.living_room",
+      "new_state": {
+        "state": "heat",
+        "attributes": {
+          "current_temperature": 28,
+          "temperature": 22
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "climate",
+      "service": "set_hvac_mode",
+      "service_data": {
+        "hvac_mode": "cool"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "climate.living_room",
+      "new_state": {
+        "state": "cool",
+        "attributes": {
+          "current_temperature": 24
+        }
+      }
+    }
+  }
+]

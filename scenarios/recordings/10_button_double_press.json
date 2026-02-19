@@ -1,0 +1,24 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "zha_event",
+      "data": {
+        "command": "double_press",
+        "device_ieee": "00:11:22:33:44:55"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "script",
+      "service": "turn_on",
+      "service_data": {
+        "entity_id": "script.goodnight"
+      }
+    }
+  }
+]

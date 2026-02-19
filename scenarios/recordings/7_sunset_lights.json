@@ -1,0 +1,24 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "sun.sun",
+      "new_state": {
+        "state": "below_horizon"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "scene",
+      "service": "turn_on",
+      "service_data": {
+        "entity_id": "scene.evening_lights"
+      }
+    }
+  }
+]

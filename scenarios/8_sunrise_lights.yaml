@@ -1,0 +1,15 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: sun.sun
+      new_state: {state: "above_horizon"}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: light
+      service: turn_off
+      service_data: {entity_id: "all"}

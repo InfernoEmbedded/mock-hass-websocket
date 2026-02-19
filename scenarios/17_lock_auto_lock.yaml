@@ -1,0 +1,17 @@
+script:
+  # Door unlocked for 5 minutes
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: lock.front_door
+      new_state: {state: "unlocked", last_changed: "2023-01-01T20:00:00Z"}
+  # Auto lock kicks in
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: lock
+      service: lock
+      service_data: {entity_id: "lock.front_door"}

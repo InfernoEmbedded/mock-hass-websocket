@@ -1,0 +1,22 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: climate.living_room
+      new_state: {state: "heat", attributes: {current_temperature: 28, temperature: 22}}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: climate
+      service: set_hvac_mode
+      service_data: {hvac_mode: "cool"}
+  - type: send
+    at_ms: 3000
+    payload:
+      type: event
+      event: state_changed
+      entity_id: climate.living_room
+      new_state: {state: "cool", attributes: {current_temperature: 24}}

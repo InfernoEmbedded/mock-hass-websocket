@@ -1,0 +1,46 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "binary_sensor.internet_connection",
+      "new_state": {
+        "state": "off"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "binary_sensor.internet_connection",
+      "new_state": {
+        "state": "off"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "switch",
+      "service": "turn_off",
+      "service_data": {
+        "entity_id": "switch.router_plug"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "switch",
+      "service": "turn_on",
+      "service_data": {
+        "entity_id": "switch.router_plug"
+      }
+    }
+  }
+]

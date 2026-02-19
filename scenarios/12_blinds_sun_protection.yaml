@@ -1,0 +1,15 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: sensor.sun_azimuth
+      new_state: {state: "180"} # Sun hitting windows
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: cover
+      service: close_cover
+      service_data: {entity_id: "cover.living_room_blinds"}

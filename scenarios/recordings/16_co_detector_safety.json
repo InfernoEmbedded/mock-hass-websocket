@@ -1,0 +1,35 @@
+[
+  {
+    "direction": "sent",
+    "payload": {
+      "type": "event",
+      "event": "state_changed",
+      "entity_id": "binary_sensor.co_detector",
+      "new_state": {
+        "state": "on"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "cover",
+      "service": "open_cover",
+      "service_data": {
+        "entity_id": "all"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "type": "call_service",
+      "domain": "fan",
+      "service": "turn_on",
+      "service_data": {
+        "entity_id": "fan.whole_house"
+      }
+    }
+  }
+]

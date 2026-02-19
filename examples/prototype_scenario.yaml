@@ -1,0 +1,45 @@
+script:
+  # 1. Server sends an event (Simulating a Motion Sensor turning ON)
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: binary_sensor.motion
+      new_state: {state: "on", attributes: {}}
+
+  # 2. Server expects the App to call a service (Turn ON the light)
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: light
+      service: turn_on
+      service_data: {entity_id: "light.room"}
+    
+  # 3. Server sends confirmation (Light is now ON)
+  - type: send
+    at_ms: 1500
+    payload:
+      type: event
+      event: state_changed
+      entity_id: light.room
+      new_state: {state: "on", attributes: {}}
+
+  # 4. Server sends another event (Simulating Motion Sensor turning OFF)
+  - type: send
+    at_ms: 3000
+    payload:
+      type: event
+      event: state_changed
+      entity_id: binary_sensor.motion
+      new_state: {state: "off", attributes: {}}
+
+  # 5. Server expects the App to turn OFF the light
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: light
+      service: turn_off
+      service_data: {entity_id: "light.room"}

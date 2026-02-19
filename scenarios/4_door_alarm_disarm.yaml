@@ -1,0 +1,22 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: input_text.alarm_code
+      new_state: {state: "1234"}
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: alarm_control_panel
+      service: alarm_disarm
+      service_data: {code: "1234"}
+  - type: send
+    at_ms: 2000
+    payload:
+      type: event
+      event: state_changed
+      entity_id: alarm_control_panel.home
+      new_state: {state: "disarmed"}

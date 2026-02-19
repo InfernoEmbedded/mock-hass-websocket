@@ -1,0 +1,23 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: binary_sensor.smoke_detector
+      new_state: {state: "on"}
+  # Should unlock doors and turn on all lights
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: lock
+      service: unlock
+      service_data: {entity_id: "all"}
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: light
+      service: turn_on
+      service_data: {entity_id: "all"}

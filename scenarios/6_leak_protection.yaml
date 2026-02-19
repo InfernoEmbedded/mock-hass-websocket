@@ -1,0 +1,22 @@
+script:
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: binary_sensor.leak_basement
+      new_state: {state: "on"}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: switch
+      service: turn_off
+      service_data: {entity_id: "switch.water_main"}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: notify
+      service: mobile_app
+      service_data: {message: "Leak detected in basement!"}

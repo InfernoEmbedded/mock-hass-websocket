@@ -1,0 +1,17 @@
+script:
+  # Garage open for too long
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: binary_sensor.garage_door
+      new_state: {state: "on", last_changed: "2023-01-01T10:00:00Z"}
+  # Assume automation logic triggers after time
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: notify
+      service: mobile_app
+      service_data: {message: "Garage door has been open for 10 minutes!"}

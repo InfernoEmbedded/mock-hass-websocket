@@ -1,0 +1,17 @@
+script:
+   # Simulate zigbee button
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: zha_event
+      data: 
+        command: "double_press"
+        device_ieee: "00:11:22:33:44:55"
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: call_service
+      domain: script
+      service: turn_on
+      service_data: {entity_id: "script.goodnight"}

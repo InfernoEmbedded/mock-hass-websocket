@@ -1,0 +1,31 @@
+script:
+  # Phone call incoming
+  - type: send
+    at_ms: 100
+    payload:
+      type: event
+      event: state_changed
+      entity_id: sensor.phone_state
+      new_state: {state: "ringing"}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: media_player
+      service: media_pause
+      service_data: {entity_id: "media_player.tv"}
+  # Call ended
+  - type: send
+    at_ms: 4000
+    payload:
+      type: event
+      event: state_changed
+      entity_id: sensor.phone_state
+      new_state: {state: "idle"}
+  - type: expect
+    timeout_ms: 2000
+    match:
+      type: call_service
+      domain: media_player
+      service: media_play
+      service_data: {entity_id: "media_player.tv"}
