@@ -1,0 +1,16 @@
+[
+  {
+    "direction": "received",
+    "payload": {
+      "id": 19,
+      "type": "ping"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 19,
+      "type": "pong"
+    }
+  }
+]

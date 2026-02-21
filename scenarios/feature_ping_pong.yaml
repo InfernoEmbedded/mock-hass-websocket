@@ -1,0 +1,12 @@
+script:
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 19
+      type: ping
+  
+  - type: send
+    at_ms: 50
+    payload:
+      id: 19
+      type: pong
