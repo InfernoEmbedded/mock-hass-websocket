@@ -5,6 +5,7 @@ A mock server for the [Home Assistant WebSocket API](https://developers.home-ass
 ## Features
 
 - **YAML-Driven Scenarios**: Define test scenarios (events to send, commands to expect) in simple YAML files.
+- **Home Assistant API Models**: Native Pydantic models for all Home Assistant WebSocket API messages (Auth, Commands, Subscriptions, Events, etc.) ensuring strict validation.
 - **Precise Timing**: Control when events are sent with millisecond precision.
 - **Deep Matching**: Verify that clients send the expected commands with correct data.
 - **Interaction Recording**: Automatically records all interactions to JSON files for regression testing.
