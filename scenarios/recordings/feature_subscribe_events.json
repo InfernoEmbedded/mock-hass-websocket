@@ -1,0 +1,86 @@
+[
+  {
+    "direction": "received",
+    "payload": {
+      "id": 18,
+      "type": "subscribe_events",
+      "event_type": "state_changed"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 18,
+      "type": "result",
+      "success": true,
+      "result": null
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 18,
+      "type": "event",
+      "event": {
+        "event_type": "state_changed",
+        "data": {
+          "entity_id": "light.bed_light",
+          "new_state": {
+            "state": "on"
+          }
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 20,
+      "type": "subscribe_trigger",
+      "trigger": {
+        "platform": "state",
+        "entity_id": "binary_sensor.motion"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 20,
+      "type": "result",
+      "success": true,
+      "result": null
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 20,
+      "type": "event",
+      "event": {
+        "variables": {
+          "trigger": {
+            "id": "0"
+          }
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 21,
+      "type": "unsubscribe_events",
+      "subscription": 18
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 21,
+      "type": "result",
+      "success": true,
+      "result": null
+    }
+  }
+]

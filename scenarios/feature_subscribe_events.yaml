@@ -1,0 +1,71 @@
+script:
+  # Subscribe to events
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 18
+      type: subscribe_events
+      event_type: state_changed
+      
+  - type: send
+    at_ms: 50
+    payload:
+      id: 18
+      type: result
+      success: true
+      result: null
+      
+  # Send an event matching the subscription 
+  - type: send
+    at_ms: 150
+    payload:
+      id: 18
+      type: event
+      event:
+        event_type: state_changed
+        data:
+          entity_id: light.bed_light
+          new_state: { state: "on" }
+          
+  # Subscribe to triggers
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 20
+      type: subscribe_trigger
+      trigger:
+        platform: state
+        entity_id: binary_sensor.motion
+        
+  - type: send
+    at_ms: 250
+    payload:
+      id: 20
+      type: result
+      success: true
+      result: null
+      
+  # Send a trigger event
+  - type: send
+    at_ms: 300
+    payload:
+      id: 20
+      type: event
+      event:
+        variables: { trigger: { id: "0" } }
+        
+  # Unsubscribe
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 21
+      type: unsubscribe_events
+      subscription: 18
+      
+  - type: send
+    at_ms: 400
+    payload:
+      id: 21
+      type: result
+      success: true
+      result: null
