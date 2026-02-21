@@ -1,0 +1,73 @@
+[
+  {
+    "direction": "received",
+    "payload": {
+      "id": 40,
+      "type": "validate_config",
+      "trigger": {
+        "platform": "state",
+        "entity_id": "sensor.test"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 40,
+      "type": "result",
+      "success": true,
+      "result": {
+        "trigger": {
+          "valid": true,
+          "error": null
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 41,
+      "type": "extract_from_target",
+      "target": {
+        "area_id": "kitchen"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 41,
+      "type": "result",
+      "success": true,
+      "result": {
+        "referenced_entities": [
+          "light.kitchen"
+        ]
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 42,
+      "type": "get_triggers_for_target",
+      "target": {
+        "entity_id": [
+          "light.kitchen"
+        ]
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 42,
+      "type": "result",
+      "success": true,
+      "result": [
+        "light.turned_on"
+      ]
+    }
+  }
+]

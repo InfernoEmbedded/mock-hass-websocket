@@ -1,0 +1,47 @@
+script:
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 40
+      type: validate_config
+      trigger: { platform: state, entity_id: sensor.test }
+      
+  - type: send
+    at_ms: 50
+    payload:
+      id: 40
+      type: result
+      success: true
+      result:
+        trigger: { valid: true, error: null }
+        
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 41
+      type: extract_from_target
+      target: { area_id: "kitchen" }
+      
+  - type: send
+    at_ms: 150
+    payload:
+      id: 41
+      type: result
+      success: true
+      result:
+        referenced_entities: ["light.kitchen"]
+        
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 42
+      type: get_triggers_for_target
+      target: { entity_id: ["light.kitchen"] }
+      
+  - type: send
+    at_ms: 250
+    payload:
+      id: 42
+      type: result
+      success: true
+      result: ["light.turned_on"]
