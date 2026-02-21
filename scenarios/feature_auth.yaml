@@ -1,0 +1,36 @@
+script:
+  # Simulate auth phase
+  - type: send
+    at_ms: 10
+    payload:
+      type: auth_required
+      ha_version: "2025.1.0"
+  
+  - type: expect
+    timeout_ms: 1000
+    match:
+      type: auth
+      access_token: "VALID_TOKEN"
+      
+  - type: send
+    at_ms: 50
+    payload:
+      type: auth_ok
+      ha_version: "2025.1.0"
+
+  # Also test Feature Enablement
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 1
+      type: supported_features
+      features:
+        coalesce_messages: 1
+        
+  - type: send
+    at_ms: 100
+    payload:
+      id: 1
+      type: result
+      success: true
+      result: null
