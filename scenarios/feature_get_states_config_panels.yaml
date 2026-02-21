@@ -1,0 +1,56 @@
+script:
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 30
+      type: get_states
+      
+  - type: send
+    at_ms: 50
+    payload:
+      id: 30
+      type: result
+      success: true
+      result: [{entity_id: "light.test", state: "on"}]
+      
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 31
+      type: get_config
+      
+  - type: send
+    at_ms: 150
+    payload:
+      id: 31
+      type: result
+      success: true
+      result: { "latitude": 0, "longitude": 0 }
+      
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 32
+      type: get_services
+      
+  - type: send
+    at_ms: 250
+    payload:
+      id: 32
+      type: result
+      success: true
+      result: { "light": { "turn_on": {} } }
+      
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 33
+      type: get_panels
+      
+  - type: send
+    at_ms: 350
+    payload:
+      id: 33
+      type: result
+      success: true
+      result: { "lovelace": { "title": "Dashboard" } }

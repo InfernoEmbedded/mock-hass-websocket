@@ -1,0 +1,82 @@
+[
+  {
+    "direction": "received",
+    "payload": {
+      "id": 30,
+      "type": "get_states"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 30,
+      "type": "result",
+      "success": true,
+      "result": [
+        {
+          "entity_id": "light.test",
+          "state": "on"
+        }
+      ]
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 31,
+      "type": "get_config"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 31,
+      "type": "result",
+      "success": true,
+      "result": {
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 32,
+      "type": "get_services"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 32,
+      "type": "result",
+      "success": true,
+      "result": {
+        "light": {
+          "turn_on": {}
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 33,
+      "type": "get_panels"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 33,
+      "type": "result",
+      "success": true,
+      "result": {
+        "lovelace": {
+          "title": "Dashboard"
+        }
+      }
+    }
+  }
+]
