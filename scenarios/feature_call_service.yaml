@@ -1,0 +1,57 @@
+script:
+  # Call a service
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 24
+      type: call_service
+      domain: light
+      service: turn_on
+      target:
+        entity_id: light.kitchen
+        
+  - type: send
+    at_ms: 50
+    payload:
+      id: 24
+      type: result
+      success: true
+      result:
+        context:
+          id: "1234abcd"
+          
+  # Call a failing service
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 25
+      type: call_service
+      domain: nonexistent
+      service: missing
+      
+  - type: send
+    at_ms: 150
+    payload:
+      id: 25
+      type: result
+      success: false
+      error:
+        code: service_not_found
+        message: "Service not found"
+        
+  # Fire an event
+  - type: expect
+    timeout_ms: 1000
+    match:
+      id: 26
+      type: fire_event
+      event_type: custom_event
+      event_data: { "some": "payload" }
+      
+  - type: send
+    at_ms: 250
+    payload:
+      id: 26
+      type: result
+      success: true
+      result: null

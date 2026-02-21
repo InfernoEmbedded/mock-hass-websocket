@@ -1,0 +1,68 @@
+[
+  {
+    "direction": "received",
+    "payload": {
+      "id": 24,
+      "type": "call_service",
+      "domain": "light",
+      "service": "turn_on",
+      "target": {
+        "entity_id": "light.kitchen"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 24,
+      "type": "result",
+      "success": true,
+      "result": {
+        "context": {
+          "id": "1234abcd"
+        }
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 25,
+      "type": "call_service",
+      "domain": "nonexistent",
+      "service": "missing"
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 25,
+      "type": "result",
+      "success": false,
+      "error": {
+        "code": "service_not_found",
+        "message": "Service not found"
+      }
+    }
+  },
+  {
+    "direction": "received",
+    "payload": {
+      "id": 26,
+      "type": "fire_event",
+      "event_type": "custom_event",
+      "event_data": {
+        "some": "payload"
+      }
+    }
+  },
+  {
+    "direction": "sent",
+    "payload": {
+      "id": 26,
+      "type": "result",
+      "success": true,
+      "result": null
+    }
+  }
+]
