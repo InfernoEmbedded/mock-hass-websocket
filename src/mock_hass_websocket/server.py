@@ -17,17 +17,25 @@ class WebsocketAdapter:
         self.ws = ws
         # Mock remote address
         self.remote_address = request.remote
+        self._closed_event = asyncio.Event()
         
     async def send(self, data):
         await self.ws.send_str(data)
         
     async def __aiter__(self):
         import aiohttp
-        async for msg in self.ws:
-            if msg.type == aiohttp.WSMsgType.TEXT:
-                yield msg.data
-            elif msg.type == aiohttp.WSMsgType.ERROR:
-                break
+        try:
+            async for msg in self.ws:
+                if msg.type == aiohttp.WSMsgType.TEXT:
+                    yield msg.data
+                elif msg.type == aiohttp.WSMsgType.ERROR:
+                    break
+        finally:
+            self._closed_event.set()
+
+    async def wait_closed(self):
+        """Wait for the websocket connection to close."""
+        await self._closed_event.wait()
 
 async def start_server(host: str, port: int, script_path: Path, engine: Optional[Engine] = None):
     """Start the websocket server using aiohttp to support REST calls."""
