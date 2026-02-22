@@ -100,7 +100,7 @@ async def test_classic_app_logic(unused_tcp_port):
     await asyncio.sleep(0.5) # Wait for server startup
     
     # 3. Start Classic App (In a Thread because it blocks)
-    app = ClassicApp(f"ws://127.0.0.1:{port}")
+    app = ClassicApp(f"ws://127.0.0.1:{port}/api/websocket")
     
     app_thread = threading.Thread(target=app.start)
     app_thread.start()

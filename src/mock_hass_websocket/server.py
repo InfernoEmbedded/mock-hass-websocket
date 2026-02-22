@@ -9,21 +9,28 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-async def handler(websocket: ServerConnection, engine: Engine):
-    """Handle a websocket connection."""
-    logger.info(f"Client connected: {websocket.remote_address}")
-    try:
-        await engine.run(websocket)
-    except Exception as e:
-        # ConnectionClosed is handled by engine or raises here?
-        # In new API, potential exceptions might differ slightly but usually 
-        # ConnectionClosedOK/Error are raised.
-        logger.error(f"Error during execution: {e}")
-    finally:
-        logger.info("Handler finished")
+from aiohttp import web
+
+class WebsocketAdapter:
+    """Adapts aiohttp WebSocketResponse to the websockets ServerConnection API that Engine expects."""
+    def __init__(self, ws, request):
+        self.ws = ws
+        # Mock remote address
+        self.remote_address = request.remote
+        
+    async def send(self, data):
+        await self.ws.send_str(data)
+        
+    async def __aiter__(self):
+        import aiohttp
+        async for msg in self.ws:
+            if msg.type == aiohttp.WSMsgType.TEXT:
+                yield msg.data
+            elif msg.type == aiohttp.WSMsgType.ERROR:
+                break
 
 async def start_server(host: str, port: int, script_path: Path, engine: Optional[Engine] = None):
-    """Start the websocket server."""
+    """Start the websocket server using aiohttp to support REST calls."""
     logging.basicConfig(level=logging.INFO)
     
     if engine is None:
@@ -31,24 +38,50 @@ async def start_server(host: str, port: int, script_path: Path, engine: Optional
         script = load_script(script_path)
         engine = Engine(script)
 
-    # Use bound handler to pass engine
-    async def bound_handler(ws: ServerConnection):
-        await handler(ws, engine)
-
-    async with serve(bound_handler, host, port) as server:
-        logger.info(f"Server started on ws://{host}:{port}")
-        stop = asyncio.Future()
-        def terminate():
-            if not stop.done():
-                stop.set_result(None)
+    async def websocket_handler(request):
+        ws = web.WebSocketResponse()
+        await ws.prepare(request)
         
-        loop = asyncio.get_running_loop()
-        # Add signal handlers if possible (might error if not in main thread)
+        adapter = WebsocketAdapter(ws, request)
+        logger.info(f"Client connected: {adapter.remote_address}")
         try:
-            loop.add_signal_handler(signal.SIGINT, terminate)
-            loop.add_signal_handler(signal.SIGTERM, terminate)
-        except NotImplementedError:
-            # For Windows or non-main threads
-            pass
-        
-        await stop
+            await engine.run(adapter)
+        except Exception as e:
+            logger.error(f"Error during execution: {e}")
+        finally:
+            logger.info("Handler finished")
+        return ws
+
+    async def rest_handler(request):
+        # Just return HTTP 200 for any api call AppDaemon makes
+        # Must read the body to avoid TCP RST when the client sends a payload
+        await request.read()
+        return web.json_response({})
+
+    app = web.Application()
+    app.router.add_get('/api/websocket', websocket_handler)
+    # Catch all POST requests to /api/states/*
+    app.router.add_post('/api/states/{tail:.*}', rest_handler)
+    app.router.add_get('/api/states/{tail:.*}', rest_handler)
+
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, host, port)
+    
+    logger.info(f"Server started on http://{host}:{port}")
+    await site.start()
+    
+    stop = asyncio.Future()
+    def terminate():
+        if not stop.done():
+            stop.set_result(None)
+    
+    loop = asyncio.get_running_loop()
+    try:
+        loop.add_signal_handler(signal.SIGINT, terminate)
+        loop.add_signal_handler(signal.SIGTERM, terminate)
+    except NotImplementedError:
+        pass
+    
+    await stop
+    await runner.cleanup()

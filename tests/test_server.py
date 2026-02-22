@@ -55,7 +55,7 @@ async def test_server_end_to_end(unused_tcp_port, tmp_path):
     await asyncio.sleep(0.5)
     
     try:
-        async with websockets.connect(f"ws://{host}:{port}") as ws:
+        async with websockets.connect(f"ws://{host}:{port}/api/websocket") as ws:
             # 1. Expect auth_required
             msg = await ws.recv()
             data = json.loads(msg)

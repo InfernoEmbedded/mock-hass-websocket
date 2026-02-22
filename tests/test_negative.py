@@ -29,7 +29,7 @@ async def test_client_timeout(unused_tcp_port, tmp_path):
     await asyncio.sleep(0.5)
     
     try:
-        async with websockets.connect(f"ws://127.0.0.1:{port}") as ws:
+        async with websockets.connect(f"ws://127.0.0.1:{port}/api/websocket") as ws:
             # Do nothing
             await asyncio.sleep(0.5)
             # Server should have logged error or closed connection?
@@ -61,7 +61,7 @@ async def test_client_sends_wrong_message(unused_tcp_port, tmp_path):
     await asyncio.sleep(0.5)
     
     try:
-        async with websockets.connect(f"ws://127.0.0.1:{port}") as ws:
+        async with websockets.connect(f"ws://127.0.0.1:{port}/api/websocket") as ws:
             await ws.send(json.dumps({"type": "B"}))
             # Engine logs warning and keeps waiting.
             # Client sends correct message later?
@@ -90,7 +90,7 @@ async def test_malformed_json(unused_tcp_port, tmp_path):
     await asyncio.sleep(0.5)
     
     try:
-        async with websockets.connect(f"ws://127.0.0.1:{port}") as ws:
+        async with websockets.connect(f"ws://127.0.0.1:{port}/api/websocket") as ws:
             await ws.send("Not JSON")
             # Server should log error but not crash
             await asyncio.sleep(0.1)

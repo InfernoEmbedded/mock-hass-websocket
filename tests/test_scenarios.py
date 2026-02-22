@@ -94,7 +94,7 @@ async def test_scenario_end_to_end(unused_tcp_port, scenario_file):
     await asyncio.sleep(0.5) # Wait for startup
     
     try:
-        async with websockets.connect(f"ws://{host}:{port}") as ws:
+        async with websockets.connect(f"ws://{host}:{port}/api/websocket") as ws:
             await run_complementary_client(ws, script)
         
         # Verify history

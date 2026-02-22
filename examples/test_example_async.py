@@ -92,7 +92,7 @@ async def test_my_app_logic(unused_tcp_port):
     await asyncio.sleep(0.1) # Wait for server startup
     
     # 3. Start App (System Under Test)
-    app = MyApp(f"ws://127.0.0.1:{port}")
+    app = MyApp(f"ws://127.0.0.1:{port}/api/websocket")
     app_task = asyncio.create_task(app.start())
     
     try:
